@@ -2,14 +2,12 @@ package com.kadowork;
 
 import com.amazonaws.services.lambda.runtime.*;
 import com.kadowork.common.*;
-import org.apache.commons.io.*;
 import org.springframework.core.io.*;
 import org.springframework.http.*;
 import org.springframework.util.*;
 import org.springframework.web.client.*;
 import org.springframework.web.util.*;
 
-import java.io.*;
 import java.net.*;
 import java.util.*;
 
@@ -37,13 +35,8 @@ public class PopularMovieNotify implements RequestHandler<Map<String, Object>, M
         String message = "■ タイトル\n" + movie.getTitle() + "\n\n" +
                          "■ 概要\n" + movie.getOverview();
         byte[] moviePoster = fetchMoviePoster(movie.getPosterPath());
-        // TODO: うまくいかんので一度保存しているが、、
-        try {
-            FileUtils.writeByteArrayToFile(new File("src/main/resources/static/tmp/tmp.jpeg"), moviePoster);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ResponseEntity<String> lineResponse = postLineNotify(message, new ClassPathResource("static/tmp/tmp.jpeg"));
+        ResponseEntity<String> lineResponse =
+                postLineNotify(message, convertForLinePost(moviePoster));
 
         Map<String, Object> output = new HashMap<>();
         output.put("input", input);
@@ -78,5 +71,14 @@ public class PopularMovieNotify implements RequestHandler<Map<String, Object>, M
                 .fromUriString(MOVIE_API_POSTER_URL + posterPath)
                 .build().encode().toUri();
         return restTemplate.exchange(uri, HttpMethod.GET, null, byte[].class).getBody();
+    }
+
+    private ByteArrayResource convertForLinePost(byte[] image) {
+        return new ByteArrayResource(image) {
+            @Override
+            public String getFilename() {
+                return "movie-poster";
+            }
+        };
     }
 }
