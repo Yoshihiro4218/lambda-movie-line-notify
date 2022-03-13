@@ -1,4 +1,4 @@
-package com.kadowork;
+package com.kadowork.popularmovie;
 
 import org.junit.jupiter.api.*;
 

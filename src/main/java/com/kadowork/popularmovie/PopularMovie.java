@@ -1,4 +1,4 @@
-package com.kadowork;
+package com.kadowork.popularmovie;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.*;
 import com.fasterxml.jackson.databind.annotation.*;

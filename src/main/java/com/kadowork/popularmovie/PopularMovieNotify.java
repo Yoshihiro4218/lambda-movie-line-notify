@@ -1,4 +1,4 @@
-package com.kadowork;
+package com.kadowork.popularmovie;
 
 import com.amazonaws.services.lambda.runtime.*;
 import com.kadowork.common.*;
@@ -11,7 +11,7 @@ import org.springframework.web.util.*;
 import java.net.*;
 import java.util.*;
 
-import static com.kadowork.PopularMovie.Movie;
+import static com.kadowork.popularmovie.PopularMovie.Movie;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 
